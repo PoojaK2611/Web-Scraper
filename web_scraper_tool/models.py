@@ -3,6 +3,7 @@ import jsonfield
 # Create your models here.
 
 class ScrapData(models.Model):
-    phone = models.TextField()
+    main_url = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
     email = models.EmailField()
-    data = jsonfield.JSONField()
+    links = jsonfield.JSONField()
