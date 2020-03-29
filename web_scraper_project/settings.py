@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'web_scraper_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbwebscrapper',
+        'NAME': 'heroku_1c25bf446e4b4ee',
         'USER': 'bf527fe52c9f20',
         'PASSWORD': '2ec787a42f0de00',
         'HOST': 'us-cdbr-iron-east-01.cleardb.net'
