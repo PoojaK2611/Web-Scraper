@@ -25,6 +25,7 @@ def web_scraper(request):
                     phone = website_soup.find('a', {"data-type": "phone"})
                     email = website_soup.find('a', {"data-type": "email"})
                     ScrapData.objects.create(
+                        main_url = url1,
                         phone=phone['href'],
                         email=email['href']
                     )
