@@ -3,16 +3,21 @@ from .models import ScrapData
 from .forms import SimpleForm
 from bs4 import BeautifulSoup
 import requests
+from django.contrib import messages
+
 
 def web_scraper(request):
     if request.method == 'POST':
         form = SimpleForm(request.POST)
         if form.is_valid():
-            #   url to scrap         # url = 'https://websites.co.in/sitemap'
+            #   url to scrap
+            #  url = 'https://websites.co.in/sitemap'
             url = form.cleaned_data['url']
             numOfSites = form.cleaned_data['NumOfSites']
-            plain_html_text = requests.get(url)     #   Load html's plain data into a variable
-            soup = BeautifulSoup(plain_html_text.text, 'html.parser')   #   parse the data
+            plain_html_text = requests.get(url)
+            #   Load html's plain data into a variable
+            soup = BeautifulSoup(plain_html_text.text, 'html.parser')
+            #   parse the data
             get_table = soup.find('table')
             for each_url in get_table.find_all('a')[0:numOfSites]:
                 if each_url.has_attr('href'):
@@ -25,15 +30,17 @@ def web_scraper(request):
                     phone = website_soup.find('a', {"data-type": "phone"})
                     email = website_soup.find('a', {"data-type": "email"})
                     ScrapData.objects.create(
-                        main_url = url1,
+                        main_url=url1,
                         phone=phone['href'],
                         email=email['href']
                     )
                     print("Phone Detail: ", phone['href'])
                     print("Email: ", email['href'])
-            return redirect('web_scraper:home')
+            messages.success(request, "Data has been scraped successfully.")
+            return render(request, 'home.html', {"form": form})
         else:
-            return render(request,'home.html',{"form":form})
+            print(form.errors)
+            return render(request, 'home.html', {"form": form})
     else:
         form = SimpleForm()
-        return render(request,'home.html',{"form": form})
+        return render(request, 'home.html', {"form": form})

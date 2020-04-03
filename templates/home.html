@@ -28,15 +28,33 @@
 <body>
     <div class="container">
         <div class="jumbotron">
-        <form action="" method="post" enctype="multipart/form-data">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+            {% endfor %}
+            {% endif %}
+            <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <h4>Enter url which have list of other websites to scrap.</h4>
             {{form}}
+            <span style="color:red">
+                {{ form.NumOfSites.errors }}
+            </span>
             <button class="btn btn-primary knn_submit" type="submit" value="submit" id="clicked">
                                         Submit
-                                    </button>
+            </button>
         </form>
             </div>
     </div>
+<script>
+    var dialog = $('.alert');
+    setTimeout(function() { dialog.alert('close'); }, 10000);
+</script>
+
 </body>
 </html>
